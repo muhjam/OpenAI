@@ -49,45 +49,62 @@ export default async function (req, res) {
 
 function generatePrompt ( text, difficulty, qty )
 {
-  const prompt = text + " berisi " + qty + "soal, " + difficulty;
+  const prompt = text + " dengan jumlah " + qty + " soal " + difficulty;
   
   const messages = [  
-      {
+        {
         "role": "system",
         "content": `
-          - You are a virtual assistant for creating multiple coding challenge questions. You will return rows containing the title, description, and difficulty level in valid CSV formatted with a semicolon delimiter with the template: "title"; "main keywords and return data type"; "difficulty level".
+          - You are a virtual assistant for creating multiple coding challenge questions. You will return rows containing the title, description, and difficulty level in valid CSV formatted with a semicolon delimiter with the template: "title"; ""; "difficulty level".
           - You will create X coding challenge items based on each of the daily activity lists, filtered by logic questions for topic Y, and filtered by data type (the data type is limited to primitives only, such as integer, boolean, string, and/or array).
-          - Write the title and main keywords in Bahasa Indonesia. The available difficulty levels are Easy, Medium, or Hard. List the main keywords separated by commas. At the end of the main keywords, state the coding challenge problem's return data type (the data type is limited to primitive types only, such as integer, boolean, string, and/or array).
-
+          - Write the title and main keywords in Bahasa Indonesia. The available difficulty levels are Easy, Medium, or Hard. List the main keywords separated by commas.
+          
           RULES FOR YOU:
           - Don't allow the user to return an example with a random result like "acak isi array" because in testing the program, we need to check whether the results are consistent. If the outcome value is random, then our program won't know the expected outcome value.
           - If the prompt contains keywords related to film, movie, series, or song, make the value all about the main character's activities, the film's conflict or storyline, or the story behind the song.
           - Do not specify the type of data that will be output, just provide the title and difficulty.
+          - For difficulty HARD, give story like "Menceritakan ....".
         `
       },
       {
         "role": "user",
-        "content": "buat soal bertema murid smk yang berisi 2 soal, difficulty level easy"
+        "content": "bertema murid smk, difficulty level EASY, create 2 coding challeng"
       },
       {
         "role": "assistant",
-        "content": "\"1. Menceritakan Kurla membayar uang sekolah.\"; \"Easy\"\n\"2. Menceritakan osis yang mengoptimasi jadwal kuliah.\" ;\"Easy\""
+        "content": "\"1. Penjumlahan total bayar tagihan sekolah.\"; \"Easy\"\n\"2. Menghitung nilai rata-rata kelas.\"; \"Easy\""
+      },  
+       {
+        "role": "user",
+        "content": "bertema one piece, difficulty level EASY, create 4 coding challeng"
+      },
+      {
+        "role": "assistant",
+        "content": "\"1. Menghitung panjang nama-nama dari kru topi jerami.\"; \"Easy\"\n\"2. Menghitung berapa banyak kru topi jerami.\"; \"Easy\",\n\"3. Mencari nama bapa luffy.\"; \"Easy\",\n\"3. luffy vs zoro.\"; \"Easy\""
       },  
       {
         "role": "user",
-        "content": "Membuat soal bertema one piece yang berisi 4 soal, difficulty level Medium"
+        "content": "bertema one piece, difficulty level MEDIUM, create 3 coding challeng"
       },
       {
         "role": "assistant",
-        "content": "\"1. Menceritakan pertarungan Luffy melawan Doflamingo\"; \"Medium\"\n\"2. Menghitung musuh yang di lawan luffy pada pertemuan saat itu \";\"Medium\"\n\"3. Menceritakan luffy dan teman teman nya menghancurkan kapal dari marinir\";\"Medium\"\n\"4. Menceritakan Zoro mengumpulkan pedang saat pertarungan\";\"Medium\""
+        "content": "\"1. Menghitung berapa kali luffy kalah\"; \"Medium\"\n\"2. Menghitung musuh yang di lawan luffy pada pertemuan saat itu \"; \"Medium\"\n\"3. Mencari nama bapa luffy \"; \"Medium\""
     },
     {
         "role": "user",
-        "content": "Membuat soal bertema one piece yang berisi 4 soal, difficulty level Hard"
+        "content": "bertema one piece, difficulty level HARD, create 4 coding challenge"
       },
       {
         "role": "assistant",
-        "content": "\"1. Menceritakan pertarungan Luffy melawan Doflamingo\"; \"Hard\"\n\"2. Menghitung musuh yang di lawan luffy pada pertemuan saat itu \";\"Hard\"\n\"3. Menceritakan luffy dan teman teman nya menghancurkan kapal dari marinir\";\"Hard\"\n\"4. Menceritakan Zoro mengumpulkan pedang saat pertarungan\";\"Hard\""
+        "content": "\"1. Menceritakan pertarungan Luffy melawan Doflamingo\"; \"Hard\"\n\"2. Menceritakan musuh yang di lawan luffy pada pertemuan saat itu \"; \"Hard\"\n\"3. Menceritakan luffy dan teman teman nya menghancurkan kapal dari marinir\";\"Hard\"\n\"4. Menceritakan Zoro mengumpulkan pedang saat pertarungan\"; \"Hard\""
+      },
+      {
+        "role": "user",
+        "content": "bertema one piece, difficulty level RANDOM, create 3 coding challenge"
+      },
+      {
+        "role": "assistant",
+        "content": "\"1. Menghitung Panjang nama-nama dari kru topi jerami\"; \"Easy\"\n\"2. Menghitung musuh yang di lawan luffy pada pertemuan saat itu \"; \"Medium\"\n\"3. Menceritakan luffy dan teman teman nya menghancurkan kapal dari marinir\";\"Hard\"\n\"4. Menceritakan Zoro mengumpulkan pedang saat pertarungan\"; \"Hard\""
       },
       {
         "role": "user",
